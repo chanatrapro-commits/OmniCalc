@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniCalc - Ultimate Multi-Mode Calculator</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- FontAwesome Icons for modern symbols -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="theme-glass">
+  <!-- Background animation wrapper -->
+  <div class="bg-gradient-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Top Nav / Mode Bar -->
+    <header class="app-header">
+      <div class="brand">
+        <i class="fa-solid fa-calculator logo-icon"></i>
+        <h1>OmniCalc</h1>
+      </div>
+      
+      <nav class="mode-nav">
+        <button class="mode-btn active" data-mode="standard" aria-label="Standard Mode">
+          <i class="fa-solid fa-calculator"></i>
+          <span>Standard</span>
+        </button>
+        <button class="mode-btn" data-mode="scientific" aria-label="Scientific Mode">
+          <i class="fa-solid fa-flask"></i>
+          <span>Scientific</span>
+        </button>
+        <button class="mode-btn" data-mode="converter" aria-label="Converter Mode">
+          <i class="fa-solid fa-right-left"></i>
+          <span>Converter</span>
+        </button>
+        <button class="mode-btn" data-mode="financial" aria-label="Financial Mode">
+          <i class="fa-solid fa-coins"></i>
+          <span>Financial</span>
+        </button>
+        <button class="mode-btn" data-mode="age" aria-label="Age Calculator Mode">
+          <i class="fa-solid fa-cake-candles"></i>
+          <span>Age</span>
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Theme Switcher dropdown/toggle -->
+        <div class="theme-menu-container">
+          <button id="theme-menu-btn" class="action-btn" title="Switch Theme" aria-label="Switch Theme">
+            <i class="fa-solid fa-palette"></i>
+          </button>
+          <div class="theme-dropdown" id="theme-dropdown">
+            <button class="theme-opt active" data-theme="glass">Frosted Glass</button>
+            <button class="theme-opt" data-theme="cyberpunk">Cyberpunk Neon</button>
+            <button class="theme-opt" data-theme="retro">Warm Retro</button>
+            <button class="theme-opt" data-theme="light">Minimalist Light</button>
+          </div>
+        </div>
+
+        <button id="history-toggle" class="action-btn" title="View History" aria-label="View History">
+          <i class="fa-solid fa-history"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Calculator Shell -->
+    <main class="calculator-shell">
+      <!-- Screen Display -->
+      <section class="screen-display" id="screen-display">
+        <div class="expression-line" id="expression-line" aria-live="polite"></div>
+        <div class="input-line" id="input-line" aria-live="polite">0</div>
+        <!-- Indicator for Trigonometry Angle Mode -->
+        <div class="angle-mode-indicator" id="angle-mode-indicator">DEG</div>
+      </section>
+
+      <!-- Panel Content Wrapper -->
+      <section class="panel-container">
+        
+        <!-- STANDARD PANEL -->
+        <div class="mode-panel active" id="panel-standard">
+          <div class="buttons-grid grid-standard">
+            <button class="btn btn-ctrl btn-clear" data-action="clear">AC</button>
+            <button class="btn btn-ctrl btn-backspace" data-action="backspace" aria-label="backspace"><i class="fa-solid fa-delete-left"></i></button>
+            <button class="btn btn-ctrl" data-action="percent">%</button>
+            <button class="btn btn-op" data-action="divide">&divide;</button>
+
+            <button class="btn btn-num" data-val="7">7</button>
+            <button class="btn btn-num" data-val="8">8</button>
+            <button class="btn btn-num" data-val="9">9</button>
+            <button class="btn btn-op" data-action="multiply">&times;</button>
+
+            <button class="btn btn-num" data-val="4">4</button>
+            <button class="btn btn-num" data-val="5">5</button>
+            <button class="btn btn-num" data-val="6">6</button>
+            <button class="btn btn-op" data-action="subtract">&minus;</button>
+
+            <button class="btn btn-num" data-val="1">1</button>
+            <button class="btn btn-num" data-val="2">2</button>
+            <button class="btn btn-num" data-val="3">3</button>
+            <button class="btn btn-op" data-action="add">+</button>
+
+            <button class="btn btn-num btn-double-width" data-val="0">0</button>
+            <button class="btn btn-num" data-val=".">.</button>
+            <button class="btn btn-equals" data-action="equals">=</button>
+          </div>
+        </div>
+
+        <!-- SCIENTIFIC PANEL -->
+        <div class="mode-panel" id="panel-scientific">
+          <div class="buttons-grid grid-scientific">
+            <!-- Row 1: Sci Functions -->
+            <button class="btn btn-sci" data-action="angle-toggle" id="angle-toggle">Deg/Rad</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="sin">sin</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="cos">cos</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="tan">tan</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="asin">sin⁻¹</button>
+
+            <!-- Row 2: Sci Functions -->
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="ln">ln</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="log">log</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="sqrt">&radic;</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="pow">x<sup>y</sup></button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="acos">cos⁻¹</button>
+
+            <!-- Row 3: Sci Functions -->
+            <button class="btn btn-sci" data-val="pi">&pi;</button>
+            <button class="btn btn-sci" data-val="e">e</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="fact">x!</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="exp">Exp</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="atan">tan⁻¹</button>
+
+            <!-- Row 4: Sci Functions -->
+            <button class="btn btn-sci" data-val="(">(</button>
+            <button class="btn btn-sci" data-val=")">)</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="square">x&sup2;</button>
+            <button class="btn btn-sci" data-action="sci-fn" data-fn="cube">x&sup3;</button>
+            <button class="btn btn-sci" data-action="negate">&plusmn;</button>
+
+            <!-- Standard operations mixed in scientific grid for layout efficiency -->
+            <button class="btn btn-ctrl btn-clear" data-action="clear">AC</button>
+            <button class="btn btn-ctrl btn-backspace" data-action="backspace" aria-label="backspace"><i class="fa-solid fa-delete-left"></i></button>
+            <button class="btn btn-ctrl" data-action="percent">%</button>
+            <button class="btn btn-op" data-action="divide">&divide;</button>
+            <button class="btn btn-op" data-action="multiply">&times;</button>
+
+            <button class="btn btn-num" data-val="7">7</button>
+            <button class="btn btn-num" data-val="8">8</button>
+            <button class="btn btn-num" data-val="9">9</button>
+            <button class="btn btn-op" data-action="subtract">&minus;</button>
+            <button class="btn btn-op" data-action="add">+</button>
+
+            <button class="btn btn-num" data-val="4">4</button>
+            <button class="btn btn-num" data-val="5">5</button>
+            <button class="btn btn-num" data-val="6">6</button>
+            <button class="btn btn-num" data-val="1">1</button>
+            <button class="btn btn-num" data-val="2">2</button>
+
+            <button class="btn btn-num" data-val="3">3</button>
+            <button class="btn btn-num" data-val="0">0</button>
+            <button class="btn btn-num" data-val=".">.</button>
+            <button class="btn btn-equals btn-double-width" data-action="equals">=</button>
+          </div>
+        </div>
+
+        <!-- CONVERTER PANEL -->
+        <div class="mode-panel" id="panel-converter">
+          <div class="converter-box">
+            <!-- Category Navigation -->
+            <div class="converter-categories">
+              <label for="converter-cat-select" class="sr-only">Category</label>
+              <select id="converter-cat-select" class="converter-select-main">
+                <option value="length">Length</option>
+                <option value="weight">Weight</option>
+                <option value="temperature">Temperature</option>
+                <option value="area">Area</option>
+                <option value="volume">Volume</option>
+                <option value="speed">Speed</option>
+                <option value="time">Time</option>
+              </select>
+            </div>
+
+            <div class="converter-inputs">
+              <!-- Source unit input -->
+              <div class="convert-field">
+                <span class="field-label">From</span>
+                <input type="number" id="convert-src-val" class="convert-input" value="1" placeholder="Enter value">
+                <select id="convert-src-unit" class="unit-select"></select>
+              </div>
+
+              <div class="convert-arrow">
+                <i class="fa-solid fa-circle-arrow-down swap-mobile"></i>
+                <i class="fa-solid fa-circle-arrow-right swap-desktop"></i>
+              </div>
+
+              <!-- Destination unit input -->
+              <div class="convert-field">
+                <span class="field-label">To</span>
+                <input type="text" id="convert-dest-val" class="convert-input" readonly placeholder="Result">
+                <select id="convert-dest-unit" class="unit-select"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FINANCIAL PANEL -->
+        <div class="mode-panel" id="panel-financial">
+          <div class="financial-box">
+            <div class="fin-tabs">
+              <button class="fin-tab-btn active" data-fintab="loan">Loan / Mortgage</button>
+              <button class="fin-tab-btn" data-fintab="compound">Compound Interest</button>
+            </div>
+
+            <!-- Loan Form -->
+            <div class="fin-form active" id="fin-form-loan">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="loan-amount">Loan Amount (Principal)</label>
+                  <div class="input-wrap">
+                    <span class="currency">$</span>
+                    <input type="number" id="loan-amount" placeholder="e.g. 250000" value="100000">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="loan-rate">Annual Interest Rate (%)</label>
+                  <div class="input-wrap">
+                    <input type="number" id="loan-rate" step="0.01" placeholder="e.g. 5.5" value="4.5">
+                    <span class="unit">%</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="loan-term">Loan Term (Years)</label>
+                  <div class="input-wrap">
+                    <input type="number" id="loan-term" placeholder="e.g. 30" value="15">
+                    <span class="unit">Yrs</span>
+                  </div>
+                </div>
+              </div>
+              
+              <button class="btn-calculate" id="btn-calc-loan">Calculate Loan</button>
+
+              <div class="fin-results" id="loan-results">
+                <div class="res-card">
+                  <span class="res-label">Monthly Payment</span>
+                  <span class="res-value" id="loan-monthly-pay">$0.00</span>
+                </div>
+                <div class="res-card-group">
+                  <div class="res-card-sub">
+                    <span class="res-label">Total Principal</span>
+                    <span class="res-value-sub" id="loan-total-principal">$0.00</span>
+                  </div>
+                  <div class="res-card-sub">
+                    <span class="res-label">Total Interest Paid</span>
+                    <span class="res-value-sub" id="loan-total-interest">$0.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Compound Interest Form -->
+            <div class="fin-form" id="fin-form-compound">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="comp-initial">Initial Investment</label>
+                  <div class="input-wrap">
+                    <span class="currency">$</span>
+                    <input type="number" id="comp-initial" placeholder="e.g. 10000" value="5000">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="comp-monthly">Monthly Contribution</label>
+                  <div class="input-wrap">
+                    <span class="currency">$</span>
+                    <input type="number" id="comp-monthly" placeholder="e.g. 200" value="100">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="comp-rate">Annual Interest Rate (%)</label>
+                  <div class="input-wrap">
+                    <input type="number" id="comp-rate" step="0.01" placeholder="e.g. 8.0" value="7.0">
+                    <span class="unit">%</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="comp-term">Years to Compound</label>
+                  <div class="input-wrap">
+                    <input type="number" id="comp-term" placeholder="e.g. 20" value="10">
+                    <span class="unit">Yrs</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="comp-freq">Compounding Interval</label>
+                  <select id="comp-freq" class="fin-select">
+                    <option value="12" selected>Monthly</option>
+                    <option value="4">Quarterly</option>
+                    <option value="2">Semi-Annually</option>
+                    <option value="1">Annually</option>
+                  </select>
+                </div>
+              </div>
+
+              <button class="btn-calculate" id="btn-calc-compound">Calculate Compound Interest</button>
+
+              <div class="fin-results" id="compound-results">
+                <div class="res-card highlight">
+                  <span class="res-label">End Balance</span>
+                  <span class="res-value" id="comp-end-balance">$0.00</span>
+                </div>
+                <div class="res-card-group">
+                  <div class="res-card-sub">
+                    <span class="res-label">Total Contributions</span>
+                    <span class="res-value-sub" id="comp-total-contrib">$0.00</span>
+                  </div>
+                  <div class="res-card-sub">
+                    <span class="res-label">Total Interest Earned</span>
+                    <span class="res-value-sub" id="comp-total-interest">$0.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGE PANEL -->
+        <div class="mode-panel" id="panel-age">
+          <div class="age-box">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="age-dob">Date of Birth</label>
+                <input type="date" id="age-dob" class="age-date-input" value="2000-01-01">
+              </div>
+              <div class="form-group">
+                <label for="age-target">Age at Date</label>
+                <input type="date" id="age-target" class="age-date-input">
+              </div>
+            </div>
+            
+            <button class="btn-calculate" id="btn-calc-age">Calculate Age</button>
+
+            <div class="fin-results" id="age-results" style="display: none;">
+              <div class="res-card highlight">
+                <span class="res-label">Age</span>
+                <span class="res-value" id="age-main-result">0 Years 0 Months 0 Days</span>
+              </div>
+              
+              <div class="res-card">
+                <span class="res-label">Next Birthday</span>
+                <span class="res-value-sub" id="age-next-birthday">-</span>
+              </div>
+
+              <div class="res-card-group">
+                <div class="res-card-sub">
+                  <span class="res-label">Total Months</span>
+                  <span class="res-value-sub" id="age-total-months">0 months</span>
+                </div>
+                <div class="res-card-sub">
+                  <span class="res-label">Total Weeks</span>
+                  <span class="res-value-sub" id="age-total-weeks">0 weeks</span>
+                </div>
+                <div class="res-card-sub">
+                  <span class="res-label">Total Days</span>
+                  <span class="res-value-sub" id="age-total-days">0 days</span>
+                </div>
+                <div class="res-card-sub">
+                  <span class="res-label">Total Hours</span>
+                  <span class="res-value-sub" id="age-total-hours">0 hours</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Slide-out History Drawer -->
+    <aside class="history-drawer" id="history-drawer">
+      <div class="drawer-header">
+        <h3>Calculation History</h3>
+        <div class="drawer-actions">
+          <button id="clear-history-btn" title="Clear All History" aria-label="Clear All History"><i class="fa-solid fa-trash-can"></i></button>
+          <button id="history-close" aria-label="Close History Panel"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+      <div class="history-list" id="history-list">
+        <!-- History items will be injected here dynamically -->
+        <div class="no-history">No history yet</div>
+      </div>
+    </aside>
+    
+    <!-- Footer / Keyboard hint -->
+    <footer class="app-footer">
+      <p><i class="fa-regular fa-keyboard"></i> Use your keyboard for operations (Enter for =, Backspace, Esc/C for AC)</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript file -->
+  <script src="script.js"></script>
+</body>
+</html>
