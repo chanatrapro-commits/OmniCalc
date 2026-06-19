@@ -1,7 +1,7 @@
 /**
  * OmniCalc - Premium Calculator Application Script
  * Core features: Multi-mode switching, custom Shunting-yard expression parser,
- * unit converter, financial calculators, theme manager, and persistent history.
+ * unit converter, age calculator, theme manager, and persistent history.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,29 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const convertSrcUnit = document.getElementById('convert-src-unit');
   const convertDestUnit = document.getElementById('convert-dest-unit');
 
-  // Financial elements
-  const finTabBtns = document.querySelectorAll('.fin-tab-btn');
-  const finForms = document.querySelectorAll('.fin-form');
-  const btnCalcLoan = document.getElementById('btn-calc-loan');
-  const btnCalcCompound = document.getElementById('btn-calc-compound');
 
-  // Loan inputs & outputs
-  const loanAmount = document.getElementById('loan-amount');
-  const loanRate = document.getElementById('loan-rate');
-  const loanTerm = document.getElementById('loan-term');
-  const loanMonthlyPay = document.getElementById('loan-monthly-pay');
-  const loanTotalPrincipal = document.getElementById('loan-total-principal');
-  const loanTotalInterest = document.getElementById('loan-total-interest');
-
-  // Compound inputs & outputs
-  const compInitial = document.getElementById('comp-initial');
-  const compMonthly = document.getElementById('comp-monthly');
-  const compRate = document.getElementById('comp-rate');
-  const compTerm = document.getElementById('comp-term');
-  const compFreq = document.getElementById('comp-freq');
-  const compEndBalance = document.getElementById('comp-end-balance');
-  const compTotalContrib = document.getElementById('comp-total-contrib');
-  const compTotalInterest = document.getElementById('comp-total-interest');
 
   // Age elements
   const ageDob = document.getElementById('age-dob');
@@ -939,97 +917,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Init converter state
   updateConverterUnits();
 
-
-  // ==========================================================================
-  // FINANCIAL CALCULATOR MODULE
-  // ==========================================================================
-  finTabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetForm = btn.dataset.fintab;
-
-      // Update active tabs
-      finTabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      // Update active form
-      finForms.forEach(form => form.classList.remove('active'));
-      document.getElementById(`fin-form-${targetForm}`).classList.add('active');
-    });
-  });
-
-  // Calculate Loan / Mortgage
-  btnCalcLoan.addEventListener('click', () => {
-    const principal = parseFloat(loanAmount.value);
-    const annualRate = parseFloat(loanRate.value);
-    const termYears = parseFloat(loanTerm.value);
-
-    if (isNaN(principal) || isNaN(annualRate) || isNaN(termYears) || principal <= 0 || annualRate < 0 || termYears <= 0) {
-      alert("Please enter valid positive numbers for the Loan parameters.");
-      return;
-    }
-
-    const monthlyRate = (annualRate / 100) / 12;
-    const totalPayments = termYears * 12;
-
-    let monthlyPayment = 0;
-    if (monthlyRate === 0) {
-      monthlyPayment = principal / totalPayments;
-    } else {
-      monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
-    }
-
-    const totalPaid = monthlyPayment * totalPayments;
-    const totalInterest = totalPaid - principal;
-
-    // Display formatted results
-    loanMonthlyPay.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(monthlyPayment);
-    loanTotalPrincipal.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(principal);
-    loanTotalInterest.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalInterest);
-  });
-
-  // Calculate Compound Interest
-  btnCalcCompound.addEventListener('click', () => {
-    const initial = parseFloat(compInitial.value);
-    const monthly = parseFloat(compMonthly.value);
-    const annualRate = parseFloat(compRate.value);
-    const years = parseFloat(compTerm.value);
-    const compoundFreq = parseInt(compFreq.value);
-
-    if (isNaN(initial) || isNaN(monthly) || isNaN(annualRate) || isNaN(years) || initial < 0 || monthly < 0 || annualRate < 0 || years <= 0) {
-      alert("Please enter valid positive numbers for the Compound Interest parameters.");
-      return;
-    }
-
-    const rate = annualRate / 100;
-    const N = compoundFreq * years; // Total compound intervals
-    const i = rate / compoundFreq; // rate per compound interval
-
-    // Calculate contribution adjustments (monthly contribution scaling to compound interval)
-    // C represents deposits made per compound interval
-    let C = 0;
-    if (compoundFreq === 12) { C = monthly; }
-    else if (compoundFreq === 4) { C = monthly * 3; }
-    else if (compoundFreq === 2) { C = monthly * 6; }
-    else if (compoundFreq === 1) { C = monthly * 12; }
-
-    const fvPrincipal = initial * Math.pow(1 + i, N);
-    
-    let fvContributions = 0;
-    if (i === 0) {
-      fvContributions = C * N;
-    } else {
-      fvContributions = C * (Math.pow(1 + i, N) - 1) / i;
-    }
-
-    const totalEndBalance = fvPrincipal + fvContributions;
-    const totalContributions = initial + (monthly * 12 * years);
-    const totalInterestEarned = Math.max(0, totalEndBalance - totalContributions);
-
-    // Display formatted results
-    compEndBalance.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalEndBalance);
-    compTotalContrib.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalContributions);
-    compTotalInterest.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalInterestEarned);
-  });
 
   // ==========================================================================
   // AGE CALCULATOR MODULE
