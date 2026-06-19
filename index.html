@@ -42,10 +42,6 @@
           <i class="fa-solid fa-right-left"></i>
           <span>Converter</span>
         </button>
-        <button class="mode-btn" data-mode="financial" aria-label="Financial Mode">
-          <i class="fa-solid fa-coins"></i>
-          <span>Financial</span>
-        </button>
         <button class="mode-btn" data-mode="age" aria-label="Age Calculator Mode">
           <i class="fa-solid fa-cake-candles"></i>
           <span>Age</span>
@@ -211,123 +207,6 @@
           </div>
         </div>
 
-        <!-- FINANCIAL PANEL -->
-        <div class="mode-panel" id="panel-financial">
-          <div class="financial-box">
-            <div class="fin-tabs">
-              <button class="fin-tab-btn active" data-fintab="loan">Loan / Mortgage</button>
-              <button class="fin-tab-btn" data-fintab="compound">Compound Interest</button>
-            </div>
-
-            <!-- Loan Form -->
-            <div class="fin-form active" id="fin-form-loan">
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="loan-amount">Loan Amount (Principal)</label>
-                  <div class="input-wrap">
-                    <span class="currency">$</span>
-                    <input type="number" id="loan-amount" placeholder="e.g. 250000" value="100000">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="loan-rate">Annual Interest Rate (%)</label>
-                  <div class="input-wrap">
-                    <input type="number" id="loan-rate" step="0.01" placeholder="e.g. 5.5" value="4.5">
-                    <span class="unit">%</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="loan-term">Loan Term (Years)</label>
-                  <div class="input-wrap">
-                    <input type="number" id="loan-term" placeholder="e.g. 30" value="15">
-                    <span class="unit">Yrs</span>
-                  </div>
-                </div>
-              </div>
-              
-              <button class="btn-calculate" id="btn-calc-loan">Calculate Loan</button>
-
-              <div class="fin-results" id="loan-results">
-                <div class="res-card">
-                  <span class="res-label">Monthly Payment</span>
-                  <span class="res-value" id="loan-monthly-pay">$0.00</span>
-                </div>
-                <div class="res-card-group">
-                  <div class="res-card-sub">
-                    <span class="res-label">Total Principal</span>
-                    <span class="res-value-sub" id="loan-total-principal">$0.00</span>
-                  </div>
-                  <div class="res-card-sub">
-                    <span class="res-label">Total Interest Paid</span>
-                    <span class="res-value-sub" id="loan-total-interest">$0.00</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Compound Interest Form -->
-            <div class="fin-form" id="fin-form-compound">
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="comp-initial">Initial Investment</label>
-                  <div class="input-wrap">
-                    <span class="currency">$</span>
-                    <input type="number" id="comp-initial" placeholder="e.g. 10000" value="5000">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="comp-monthly">Monthly Contribution</label>
-                  <div class="input-wrap">
-                    <span class="currency">$</span>
-                    <input type="number" id="comp-monthly" placeholder="e.g. 200" value="100">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="comp-rate">Annual Interest Rate (%)</label>
-                  <div class="input-wrap">
-                    <input type="number" id="comp-rate" step="0.01" placeholder="e.g. 8.0" value="7.0">
-                    <span class="unit">%</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="comp-term">Years to Compound</label>
-                  <div class="input-wrap">
-                    <input type="number" id="comp-term" placeholder="e.g. 20" value="10">
-                    <span class="unit">Yrs</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="comp-freq">Compounding Interval</label>
-                  <select id="comp-freq" class="fin-select">
-                    <option value="12" selected>Monthly</option>
-                    <option value="4">Quarterly</option>
-                    <option value="2">Semi-Annually</option>
-                    <option value="1">Annually</option>
-                  </select>
-                </div>
-              </div>
-
-              <button class="btn-calculate" id="btn-calc-compound">Calculate Compound Interest</button>
-
-              <div class="fin-results" id="compound-results">
-                <div class="res-card highlight">
-                  <span class="res-label">End Balance</span>
-                  <span class="res-value" id="comp-end-balance">$0.00</span>
-                </div>
-                <div class="res-card-group">
-                  <div class="res-card-sub">
-                    <span class="res-label">Total Contributions</span>
-                    <span class="res-value-sub" id="comp-total-contrib">$0.00</span>
-                  </div>
-                  <div class="res-card-sub">
-                    <span class="res-label">Total Interest Earned</span>
-                    <span class="res-value-sub" id="comp-total-interest">$0.00</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <!-- AGE PANEL -->
         <div class="mode-panel" id="panel-age">
@@ -345,7 +224,7 @@
             
             <button class="btn-calculate" id="btn-calc-age">Calculate Age</button>
 
-            <div class="fin-results" id="age-results" style="display: none;">
+            <div class="age-results-container" id="age-results" style="display: none;">
               <div class="res-card highlight">
                 <span class="res-label">Age</span>
                 <span class="res-value" id="age-main-result">0 Years 0 Months 0 Days</span>
